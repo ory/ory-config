@@ -1,0 +1,6 @@
+{
+  "hydra": "https://raw.githubusercontent.com/ory/hydra/master/.schema/config.schema.json",
+  "kratos": "https://raw.githubusercontent.com/ory/kratos/master/.schema/config.schema.json",
+  "keto": "https://raw.githubusercontent.com/ory/keto/master/.schema/config.schema.json",
+  "oathkeeper": "https://raw.githubusercontent.com/ory/oathkeeper/master/.schema/config.schema.json"
+}

@@ -1,14 +1,32 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    redirect: '/hydra',
+  },
+  {
+    name: 'hydra',
+    path: '/hydra',
+    component: () => import('../views/Hydra.vue'),
+  },
+  {
+    name: 'kratos',
+    path: '/kratos',
+    component: () => import('../views/Kratos.vue'),
+  },
+  {
+    name: 'keto',
+    path: '/keto',
+    component: () => import('../views/Keto.vue'),
+  },
+  {
+    name: 'oathkeeper',
+    path: '/oathkeeper',
+    component: () => import('../views/Oathkeeper.vue'),
   },
   {
     path: '/about',

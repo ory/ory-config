@@ -1,4 +1,8 @@
-# ory-config
+<h1 align="center">Ory Config</h1>
+
+A small Web App for configuring Ory systems built in VueJs 2.x
+
+The intention of the project is to configure an Ory system
 
 ## Project setup
 ```
