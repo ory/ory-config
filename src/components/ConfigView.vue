@@ -16,7 +16,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
 import { codemirror } from 'vue-codemirror';
 
 // import base style
@@ -38,10 +40,13 @@ export default class ConfigView extends Vue {
 
     private themes: Array<string>;
 
+    private codeFormat: string;
+
     constructor() {
       super();
       this.val = '';
-      this.format = 'text/yaml';
+      this.format = '';
+      this.codeFormat = 'text/x-yaml';
       this.theme = 'base16-dark';
       this.themes = [
         '3024-day',
@@ -108,11 +113,16 @@ export default class ConfigView extends Vue {
       ];
       this.options = {
         tabSize: 4,
-        mode: this.format,
+        mode: `text/x-${this.codeFormat}`,
         theme: this.theme,
         lineNumbers: true,
         line: true,
       };
+    }
+
+    @Watch('format')
+    changeFormat(val: string) {
+      this.codeFormat = val;
     }
 }
 </script>

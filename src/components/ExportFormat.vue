@@ -23,7 +23,7 @@ export default class ExportFormat extends Vue {
 
     constructor() {
       super();
-      this.formats = ['json', 'yaml'];
+      this.formats = ['json', 'yaml', 'toml'];
       this.selectedFormat = 'yaml';
     }
 
