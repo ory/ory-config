@@ -117,6 +117,7 @@ export default class ConfigView extends Vue {
         theme: this.theme,
         lineNumbers: true,
         line: true,
+        lint: true,
       };
     }
 

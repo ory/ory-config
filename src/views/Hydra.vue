@@ -5,9 +5,9 @@
         <export-format @callback-format="callbackFormat"></export-format>
         <config-view :val="configData" :format="format"></config-view>
       </div>
-      <div class="column" style="max-height: 80vh;overflow-y: scroll">
-        <form-generator v-if="remoteData['$id'] !== undefined" :data="remoteData"
-                        @callback-config="callbackConfig"></form-generator>
+      <div class="column is-two-thirds" style="max-height: 80vh;overflow-y: scroll">
+          <form-generator v-if="remoteData['$id'] !== undefined" :data="remoteData"
+                          @callback-config="callbackConfig"></form-generator>
       </div>
     </div>
   </div>

@@ -1,6 +1,6 @@
-import GenericFormItem from '@/models/GenericFormItem';
+import GenericFormSection from "@/models/GenericFormSection";
 
 export default interface GenericForm {
-  section: string;
-  fields: Array<GenericFormItem>;
+  parent: string;
+  sections: Array<GenericFormSection>;
 };
