@@ -10,7 +10,8 @@
     </b-select>
     <!-- Two-way Data-Binding -->
     <div class="level-left">
-      <codemirror v-model="val" :options="options"/>
+      <b-input maxlength="400" expanded type="textarea" v-model="val"></b-input>
+      <!--<codemirror v-model="val" :options="options"/>-->
     </div>
   </div>
 </template>
@@ -30,9 +31,9 @@ import 'codemirror/lib/codemirror.css';
     },
   })
 export default class ConfigView extends Vue {
-    @Prop({ required: true }) private val: string;
+    @Prop({ required: true }) private val!: string;
 
-    @Prop({ required: true }) private format: string;
+    @Prop({ required: true }) private format!: string;
 
     private options: Record<string, any>;
 
@@ -44,9 +45,7 @@ export default class ConfigView extends Vue {
 
     constructor() {
       super();
-      this.val = '';
-      this.format = '';
-      this.codeFormat = 'text/x-yaml';
+      this.codeFormat = 'yaml';
       this.theme = 'base16-dark';
       this.themes = [
         '3024-day',

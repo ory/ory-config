@@ -18,7 +18,12 @@
             </div>
             <div class="tile is-vertical is-child">
               <div v-for="inner in child.fields" :key="inner.name">
-                <form-any-component :item="inner"></form-any-component>
+                <form-any-component @callback-item="callbackItem"
+                                    :item="inner"
+                                    :section="child.section"
+                                    :parent="parent.parent">
+
+                </form-any-component>
               </div>
             </div>
             </section>
@@ -35,7 +40,9 @@
 
 <script lang="ts">
 
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
 import GenericForm from '@/models/GenericForm';
 import GenericFormItem from '@/models/GenericFormItem';
 import FormAnyComponent from '@/components/FormAnyComponent.vue';
@@ -53,7 +60,12 @@ export default class FormGenerator extends Vue {
       super();
       this.formData = [{ parent: '', sections: [] }];
       this.formData = this.recursiveParseData(this.formData, '', '', this.data.properties);
-      console.debug(this.formData);
+    }
+
+    @Watch('formData', { deep: true })
+    changeFormData(val: Array<GenericForm>) {
+      // TODO: transform the data back into a key-value pair json structure
+      this.$emit('callback-form', val);
     }
 
     reset(): void {
@@ -73,11 +85,27 @@ export default class FormGenerator extends Vue {
     transformEnv() {
     } */
 
+    callbackItem({ parent, section, item }:
+                   {parent: string; section: string; item: GenericFormItem}): void {
+      const parentIndex = this.formData.findIndex((value) => value.parent === parent);
+
+      if (parentIndex > -1) {
+        const sectionIndex = this.formData[parentIndex].sections
+          .findIndex((value) => value.section === section);
+        if (sectionIndex > -1) {
+          const itemIndex = this.formData[parentIndex].sections[sectionIndex].fields
+            .findIndex((value) => value.name === item.name);
+          if (itemIndex > -1) {
+            this.formData[parentIndex].sections[sectionIndex].fields[itemIndex] = item;
+          }
+        }
+      }
+    }
+
     // eslint-disable-next-line max-len
     recursiveParseData(formData: Array<GenericForm>, parent: string, section: string, obj: Record<string, any>): Array<GenericForm> {
       // eslint-disable-next-line no-restricted-syntax,guard-for-in
       for (const key in obj) {
-        console.debug(key, obj[key]);
         // eslint-disable-next-line no-prototype-builtins
         if (obj[key].hasOwnProperty('type')) {
           if (obj[key].type === 'object') {
@@ -138,7 +166,6 @@ export default class FormGenerator extends Vue {
 
     // eslint-disable-next-line max-len,class-methods-use-this
     appendToSection(formData: Array<GenericForm>, parent: string, section: string, field: GenericFormItem): void {
-      console.debug(formData);
       const parentIndex = formData.findIndex((value) => value.parent === parent);
 
       if (parentIndex > -1) {

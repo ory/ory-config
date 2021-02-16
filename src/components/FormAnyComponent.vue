@@ -53,11 +53,17 @@
 
 <script lang="ts">
 
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import {
+  Component, Prop, Vue, Watch,
+} from 'vue-property-decorator';
 import GenericFormItem from '@/models/GenericFormItem';
 
   @Component
 export default class FormAnyComponent extends Vue {
+    @Prop({ required: true }) private parent !: string;
+
+    @Prop({ required: true }) private section !: string;
+
     @Prop({ required: true }) private item !: GenericFormItem;
 
     private val: any;
@@ -86,6 +92,13 @@ export default class FormAnyComponent extends Vue {
       if (this.item.defaults !== null) {
         this.val = this.item.defaults;
       }
+    }
+
+    @Watch('val')
+    changeVal(val: any) {
+      this.item.value = val;
+      this.$emit('callback-item',
+        { parent: this.parent, section: this.section, item: this.item });
     }
 }
 

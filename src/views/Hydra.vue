@@ -7,7 +7,7 @@
       </div>
       <div class="column is-two-thirds" style="max-height: 80vh;overflow-y: scroll">
           <form-generator v-if="remoteData['$id'] !== undefined" :data="remoteData"
-                          @callback-config="callbackConfig"></form-generator>
+                          @callback-form="callbackForm"></form-generator>
       </div>
     </div>
   </div>
@@ -20,6 +20,8 @@ import FormGenerator from '@/components/FormGenerator.vue';
 import hydra from '@/json/hydra.json';
 import ConfigView from '@/components/ConfigView.vue';
 import ExportFormat from '@/components/ExportFormat.vue';
+import GenericForm from '@/models/GenericForm';
+import yaml from 'js-yaml';
 
   @Component({
     components: { ExportFormat, ConfigView, FormGenerator },
@@ -35,11 +37,18 @@ export default class Hydra extends Vue {
       super();
       this.remoteData = hydra;
       this.configData = '';
-      this.format = 'text/yaml';
+      this.format = 'yaml';
     }
 
-    callbackConfig(data: string) {
-      this.configData = data;
+    callbackForm(data: GenericForm) {
+      switch (this.format) {
+        case 'yaml':
+          this.configData = yaml.dump(data);
+          break;
+        default:
+          break;
+      }
+      console.debug(this.configData);
     }
 
     callbackFormat(format: string) {
