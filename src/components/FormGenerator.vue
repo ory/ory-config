@@ -18,7 +18,7 @@
         </div>
       </section>
 
-      <section>
+      <section class="footer">
         <b-button @click="reset">Reset</b-button>
         <b-button @click="save">Save</b-button>
       </section>

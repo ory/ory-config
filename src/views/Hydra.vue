@@ -1,6 +1,15 @@
 <template>
   <div id="hydra">
-    <form-generator v-if="remoteData['$id'] !== undefined" :data="remoteData"></form-generator>
+    <div class="columns is-desktop">
+      <div class="column">
+        <export-format @callback-format="callbackFormat"></export-format>
+        <config-view :val="configData" :format="format"></config-view>
+      </div>
+      <div class="column" style="max-height: 80vh;overflow-y: scroll">
+        <form-generator v-if="remoteData['$id'] !== undefined" :data="remoteData"
+                        @callback-config="callbackConfig"></form-generator>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -9,25 +18,33 @@
 import { Component, Vue } from 'vue-property-decorator';
 import FormGenerator from '@/components/FormGenerator.vue';
 import hydra from '@/json/hydra.json';
+import ConfigView from '@/components/ConfigView.vue';
+import ExportFormat from '@/components/ExportFormat.vue';
 
   @Component({
-    components: { FormGenerator },
+    components: { ExportFormat, ConfigView, FormGenerator },
   })
 export default class Hydra extends Vue {
     private remoteData: Record<string, any>;
 
+    private configData: string;
+
+    private format: string;
+
     constructor() {
       super();
       this.remoteData = hydra;
-      // this.getData();
+      this.configData = '';
+      this.format = 'text/yaml';
     }
 
-  // eslint-disable-next-line class-methods-use-this
-  /* async getData(): Promise<void> {
-      const response = await fetch(`${process.env.VUE_APP_HYDRA_SCHEMA}`);
-      this.remoteData = await response.json();
-      console.debug(this.remoteData);
-    } */
+    callbackConfig(data: string) {
+      this.configData = data;
+    }
+
+    callbackFormat(format: string) {
+      this.format = format;
+    }
 }
 
 </script>

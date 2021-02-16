@@ -1,4 +1,4 @@
-import GenericFormItemSetValue from "@/models/GenericFormItemSetValue";
+import GenericFormItemSetValue from '@/models/GenericFormItemSetValue';
 
 export default interface GenericFormItem {
   name: string;

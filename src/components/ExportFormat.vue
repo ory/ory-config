@@ -1,12 +1,19 @@
 <template>
   <div id="export-format">
-    <b-select :value="formats" v-model="selectedFormat"></b-select>
+    <b-select v-model="selectedFormat">
+      <option
+      v-for="f in formats"
+      :value="f"
+      :key="f">
+        {{f}}
+      </option>
+    </b-select>
   </div>
 </template>
 
 <script lang="ts">
 
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 
   @Component
 export default class ExportFormat extends Vue {
@@ -17,7 +24,12 @@ export default class ExportFormat extends Vue {
     constructor() {
       super();
       this.formats = ['json', 'yaml'];
-      this.selectedFormat = '';
+      this.selectedFormat = 'yaml';
+    }
+
+    @Watch('selectedFormat')
+    changeSelectedFormat(val: string) {
+      this.$emit('callback-format', val);
     }
 }
 
