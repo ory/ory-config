@@ -243,6 +243,7 @@ export default class FormGenerator extends Vue {
                 item: fields[k],
                 section: child.section,
                 parent: root.parent,
+                callbackItem: this.callbackItem,
               },
             });
             formAnyInstance.$mount();
