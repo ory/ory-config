@@ -1,4 +1,4 @@
-import GenericFormSection from "@/models/GenericFormSection";
+import GenericFormSection from '@/models/GenericFormSection';
 
 export default interface GenericForm {
   parent: string;
